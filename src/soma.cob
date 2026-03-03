@@ -9,6 +9,9 @@ IDENTIFICATION DIVISION.
        01 WS-ARGUMENTO PIC X(100).
        01 WS-PARAMETRO1 PIC X(20).
        01 WS-PARAMETRO2 PIC X(20).
+       01 LEN1          PIC 9(3).
+       01 LEN2          PIC 9(3).
+
        
        PROCEDURE DIVISION.
        
@@ -17,17 +20,17 @@ IDENTIFICATION DIVISION.
            
       *> Analisar os argumentos recebidos
            UNSTRING WS-ARGUMENTO DELIMITED BY SPACE
-               INTO WS-PARAMETRO1
-                    WS-PARAMETRO2
+               INTO WS-PARAMETRO1 COUNT IN LEN1
+                    WS-PARAMETRO2 COUNT IN LEN2
            END-UNSTRING.
 
            DISPLAY 'WS-PARAMETRO1: ' WS-PARAMETRO1
            DISPLAY 'WS-PARAMETRO2: ' WS-PARAMETRO2
-           IF WS-PARAMETRO1 IS NUMERIC
+           IF WS-PARAMETRO1(1:LEN1) IS NUMERIC
               DISPLAY 'WS-PARAMETRO1 É NUMERICO'
            END-IF.
 
-           IF WS-PARAMETRO2 IS NUMERIC
+           IF WS-PARAMETRO2(1:LEN2) IS NUMERIC
               DISPLAY 'WS-PARAMETRO2 É NUMERICO'
            END-IF.
       
