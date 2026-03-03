@@ -28,7 +28,7 @@ jobs:
           echo "EMSDK=$PWD" >> $GITHUB_ENV
 
       - name: Compile COBOL to C
-        run: cobc -Wall -C -fno-math -fno-arith "03_Add2.cob" -o soma.c
+        run: cobc -Wall -C "03_Add2.cob" -o soma.c
 
       - name: Remove gmp.h include
         run: sed -i 's/#include <gmp.h>//' soma.c
