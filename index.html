@@ -1,0 +1,46 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>COBOL WebAssembly Soma</title>
+</head>
+<body>
+  <h1>Soma em COBOL (rodando no navegador!)</h1>
+
+  <input id="v1" type="number" placeholder="Valor 1">
+  <input id="v2" type="number" placeholder="Valor 2">
+  <button onclick="somar()">Somar</button>
+
+  <h2>Resultado: <span id="out"></span></h2>
+
+  <script type="module">
+    import createCobolModule from "./cobol.js";
+
+    let Module;
+    let output = "";
+    
+    // captura do DISPLAY do COBOL
+    const printCallback = (text) => {
+      output += text + "\n";
+    };
+
+    createCobolModule({
+      print: printCallback,
+      printErr: printCallback
+    }).then(mod => { Module = mod; });
+
+    function somar() {
+      output = "";
+      const a = parseInt(document.getElementById("v1").value);
+      const b = parseInt(document.getElementById("v2").value);
+
+      // chama o programa COBOL (função main)
+      Module.ccall("main", null, ["number", "number"], [a, b]);
+
+      document.getElementById("out").innerText = output.trim();
+    }
+  </script>
+</body>
+</html>
+``
