@@ -17,7 +17,7 @@ on:
         default: '20'
 
 env:
-  COBOL_PROGRAM: soma.cob
+  COBOL_PROGRAM: src/soma.cob
   COBOL_EXECUTABLE: soma
 
 jobs:
