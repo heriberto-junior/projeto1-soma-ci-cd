@@ -1,43 +1,44 @@
 IDENTIFICATION DIVISION.
        PROGRAM-ID. SOMA.
        
-       ENVIRONMENT DIVISION.
-       INPUT-OUTPUT SECTION.
-       
        DATA DIVISION.
-       FILE SECTION.
-       
        WORKING-STORAGE SECTION.
-       01 WS-NUMERO1          PIC 9(10) VALUE 0.
-       01 WS-NUMERO2          PIC 9(10) VALUE 0.
-       01 WS-RESULTADO        PIC 9(10) VALUE 0.
-       01 WS-ARGUMENTO1       PIC X(20).
-       01 WS-ARGUMENTO2       PIC X(20).
-       01 WS-RETURN-CODE      PIC 9 VALUE 0.
+       01 WS-NUMERO1 PIC 9(10) VALUE 0.
+       01 WS-NUMERO2 PIC 9(10) VALUE 0.
+       01 WS-RESULTADO PIC 9(10) VALUE 0.
+       01 WS-ARGUMENTO PIC X(100).
+       01 WS-PARAMETRO1 PIC X(20).
+       01 WS-PARAMETRO2 PIC X(20).
        
        PROCEDURE DIVISION.
        
-           ACCEPT WS-ARGUMENTO1 FROM COMMAND-LINE.
+      *> Receber todos os argumentos da linha de comando
+           ACCEPT WS-ARGUMENTO FROM COMMAND-LINE.
            
-           IF WS-ARGUMENTO1 NOT = SPACES
-               MOVE FUNCTION NUMVAL(WS-ARGUMENTO1) TO WS-NUMERO1
+      *> Analisar os argumentos recebidos
+           UNSTRING WS-ARGUMENTO DELIMITED BY SPACE
+               INTO WS-PARAMETRO1
+                    WS-PARAMETRO2
+           END-UNSTRING.
+           
+      *> Converter primeiro parâmetro
+           IF WS-PARAMETRO1 NOT = SPACES AND WS-PARAMETRO1 IS NUMERIC
+               MOVE FUNCTION NUMVAL(WS-PARAMETRO1) TO WS-NUMERO1
            ELSE
                MOVE 0 TO WS-NUMERO1
            END-IF.
            
-           ACCEPT WS-ARGUMENTO2 FROM ARGUMENT-VALUE.
-           
-           IF WS-ARGUMENTO2 NOT = SPACES
-               MOVE FUNCTION NUMVAL(WS-ARGUMENTO2) TO WS-NUMERO2
+      *> Converter segundo parâmetro
+           IF WS-PARAMETRO2 NOT = SPACES AND WS-PARAMETRO2 IS NUMERIC
+               MOVE FUNCTION NUMVAL(WS-PARAMETRO2) TO WS-NUMERO2
            ELSE
                MOVE 0 TO WS-NUMERO2
            END-IF.
            
-           PERFORM CALCULAR-SOMA.
+      *> Realizar a soma
+           ADD WS-NUMERO1 TO WS-NUMERO2 GIVING WS-RESULTADO.
            
+      *> Exibir resultado
            DISPLAY "RESULTADO=" WS-RESULTADO.
            
            STOP RUN.
-           
-       CALCULAR-SOMA.
-           ADD WS-NUMERO1 TO WS-NUMERO2 GIVING WS-RESULTADO.
