@@ -20,7 +20,10 @@ IDENTIFICATION DIVISION.
                INTO WS-PARAMETRO1
                     WS-PARAMETRO2
            END-UNSTRING.
-           
+
+           DISPLAY 'WS-PARAMETRO1: ' WS-PARAMETRO1
+           DISPLAY 'WS-PARAMETRO2: ' WS-PARAMETRO2
+      
       *> Converter primeiro parâmetro
            IF WS-PARAMETRO1 NOT = SPACES AND WS-PARAMETRO1 IS NUMERIC
                MOVE FUNCTION NUMVAL(WS-PARAMETRO1) TO WS-NUMERO1
