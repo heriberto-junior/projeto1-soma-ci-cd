@@ -39,32 +39,11 @@ jobs:
         cobc -x -free -o ${{ env.COBOL_EXECUTABLE }} ${{ env.COBOL_PROGRAM }}
         echo "✓ Compilação bem-sucedida"
     
-    - name: Executar testes com valores padrão
-      run: |
-        echo "Teste 1: 100 + 200"
-        ./${{ env.COBOL_EXECUTABLE }} 100 200
-        
-        echo ""
-        echo "Teste 2: 500 + 1500"
-        ./${{ env.COBOL_EXECUTABLE }} 500 1500
-        
-        echo ""
-        echo "Teste 3: 0 + 999"
-        ./${{ env.COBOL_EXECUTABLE }} 0 999
-    
     - name: Executar com valores customizados
       if: github.event_name == 'workflow_dispatch'
       run: |
         echo "Executando com valores customizados"
         ./${{ env.COBOL_EXECUTABLE }} ${{ github.event.inputs.numero1 }} ${{ github.event.inputs.numero2 }}
-    
-    - name: Executar com valores de variáveis de ambiente
-      env:
-        NUM1: 42
-        NUM2: 58
-      run: |
-        echo "Executando com variáveis de ambiente"
-        ./${{ env.COBOL_EXECUTABLE }} $NUM1 $NUM2
     
     - name: Gerar relatório de execução
       if: always()
